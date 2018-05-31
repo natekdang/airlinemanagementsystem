@@ -23,6 +23,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  * This class defines a simple embedded SQL utility class that is designed to
@@ -300,13 +302,279 @@ public class DBproject{
 	}//end readChoice
 
 	public static void AddPlane(DBproject esql) {//1
+		int ID;
+		
+		do {
+			System.out.print("Input Plane ID Number: ");
+			try {
+				ID = Integer.parseInt(in.readLine());
+				if(ID < 0) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		String make;
+		
+		do {
+			System.out.print("Input Plane Make: ");
+			try {
+				make = in.readLine();
+				if(make.length() <= 0 || make.length() > 32) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		String model;
+		
+		do {
+			System.out.print("Input Plane Model: ");
+			try {
+				model = in.readLine();
+				if(model.length() <= 0 || model.length() > 64) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		int age;
+		
+		do {
+			System.out.print("Input Plane Age: ");
+			try {
+				age = Integer.parseInt(in.readLine());
+				if(age < 0) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		int seats;
+		
+		do {
+			System.out.print("Input Number of Plane Seats: ");
+			try {
+				seats = Integer.parseInt(in.readLine());
+				if(age <= 0 || age >= 500) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		try {
+			String query = "INSERT INTO Plane (id, make, model, age, seats) VALUES (" + ID + ", " + make + ", " + model + ", " + age + ", " + seats + ");";
+			
+			esql.executeUpdate(query);
+		}catch (Exception e) {
+			System.err.println (e.getMessage());
+		}
 	}
 
 	public static void AddPilot(DBproject esql) {//2
+		int ID;
+		
+		do {
+			System.out.print("Input Pilot ID Number: ");
+			try {
+				ID = Integer.parseInt(in.readLine());
+				if(ID < 0) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		String name;
+		
+		do {
+			System.out.print("Input Pilot Name: ");
+			try {
+				name = in.readLine();
+				if(name.length() <= 0 || name.length() > 128) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		String nationality;
+		
+		do {
+			System.out.print("Input Pilot Nationality: ");
+			try {
+				nationality = in.readLine();
+				if(nationality.length() <= 0 || nationality.length() > 24) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		try {
+			String query = "INSERT INTO Pilot (id, fullname, nationality) VALUES (" + ID + ", " + name + ", " + nationality + ");";
+			
+			esql.executeUpdate(query);
+		}catch (Exception e) {
+			System.err.println (e.getMessage());
+		}
 	}
 
 	public static void AddFlight(DBproject esql) {//3
 		// Given a pilot, plane and flight, adds a flight in the DB
+		int number;
+		
+		do {
+			System.out.print("Input Flight Number: ");
+			try {
+				number = Integer.parseInt(in.readLine());
+				if(number < 0) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		int cost;
+		
+		do {
+			System.out.print("Input Flight Cost: ");
+			try {
+				cost = Integer.parseInt(in.readLine());
+				if(cost <= 0) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		int sold;
+		
+		do {
+			System.out.print("Input Number of Seats Sold: ");
+			try {
+				sold = Integer.parseInt(in.readLine());
+				if(sold < 0) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		int stops;
+		
+		do {
+			System.out.print("Input Number of Stops: ");
+			try {
+				stops = Integer.parseInt(in.readLine());
+				if(stops < 0) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		LocalDate leave;
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		
+		do {
+			System.out.print("Input Departure Time (YYYY-MM-DD hh-mm): ");
+			try {
+				String input = in.readLine();
+				leave = LocalDate.parse(input, formatter);
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		LocalDate arrival;
+		
+		do {
+			System.out.print("Input Arrival Time (YYYY-MM-DD hh-mm): ");
+			try {
+				String input = in.readLine();
+				arrival = LocalDate.parse(input, formatter);
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		String destination;
+		
+		do {
+			System.out.print("Input Destination Airport: ");
+			try {
+				destination = in.readLine();
+				if(destination.length() < 0 || destination.length() > 5) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
+		
+		String departure;
+		
+		do {
+			System.out.print("Input Departure Airport: ");
+			try {
+				departure = in.readLine();
+				if(departure.length() < 0 || departure.length() > 5) {
+					throw new RuntimeException();
+				}
+				break;
+			}catch (Exception e) {
+				System.out.println("Your input is invalid!");
+				continue;
+			}
+		}while (true);
 	}
 
 	public static void AddTechnician(DBproject esql) {//4
